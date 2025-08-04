@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Tools Assistant</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>AI Function Assistant</h1>
+    <textarea id="input" placeholder="Ask me anything..."></textarea>
+    <button onclick="send()">Send</button>
+    <div id="chat"></div>
+  </div>
+  <script>
+    async function send() {
+      const message = document.getElementById("input").value;
+      document.getElementById("chat").innerHTML += `<p><b>You:</b> ${message}</p>`;
+      const res = await fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message})
+      });
+      const data = await res.json();
+      document.getElementById("chat").innerHTML += `<p><b>Bot:</b> ${data.reply}</p>`;
+    }
+  </script>
+</body>
+</html>
